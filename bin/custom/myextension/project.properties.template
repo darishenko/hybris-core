@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+myextension.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+myextension.application-context=myextension-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.myextension=classpath:/myextension/web/spring/myextension-web-spring.xml
+
+
+
+myextension.javascript.paths.responsive=/responsive/common/js/myextension.js
+myextension.css.paths.responsive=/responsive/common/css/myextension.css

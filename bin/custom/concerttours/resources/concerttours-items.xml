@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+    <collectiontypes>
+        <collectiontype code="SongCollection" elementtype="java.lang.String" type="list"/>
+    </collectiontypes>
+
+    <enumtypes>
+        <enumtype code="ConcertType" dynamic="false">
+            <value code="openair"/>
+            <value code="indoor"/>
+        </enumtype>
+        <enumtype code="MusicType" dynamic="true">
+        </enumtype>
+        <enumtype code="ConcertTicketType" dynamic="true">
+        </enumtype>
+    </enumtypes>
+
+    <maptypes>
+        <maptype code="AlbumMap" argumenttype="java.lang.String" returntype="Band"/>
+    </maptypes>
+
+    <relations>
+        <relation code="Product2RockBand" generate="false" localized="false">
+            <sourceElement qualifier="tours" type="Product" collectiontype="set" cardinality="many" ordered="false">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </sourceElement>
+            <targetElement qualifier="band" type="Band" cardinality="one">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </targetElement>
+        </relation>
+        <relation code="Band2MusicType" generate="false" localized="false">
+            <deployment table="Band2MusicType" typecode="30267"/>
+            <sourceElement qualifier="bands" type="Band" collectiontype="set" cardinality="many" ordered="false">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </sourceElement>
+            <targetElement qualifier="types" type="MusicType" cardinality="many">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </targetElement>
+        </relation>
+        <relation code="Concert2ConcertTicket" generate="false" localized="false">
+            <sourceElement qualifier="concert" type="Concert" collectiontype="set" cardinality="one" ordered="false">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </sourceElement>
+            <targetElement qualifier="tickets" type="ConcertTicket" cardinality="many">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </targetElement>
+        </relation>
+        <relation code="Band2Album" localized="false">
+            <sourceElement qualifier="band" type="Band" collectiontype="set" cardinality="one" ordered="false">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </sourceElement>
+            <targetElement qualifier="album" type="Album" cardinality="many">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </targetElement>
+        </relation>
+    </relations>
+
+    <itemtypes>
+        <itemtype code="Product" autocreate="false">
+            <attributes>
+                <attribute qualifier="hashtag" type="java.lang.String">
+                    <description>hashtag of concert tour for social media</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="Band">
+            <deployment table="Bands" typecode="30268"/>
+            <attributes>
+                <attribute qualifier="code" type="java.lang.String">
+                    <description>short unique code of band</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="name" type="java.lang.String">
+                    <description>name of band</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="history" type="java.lang.String">
+                    <description>history of band</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="Album">
+            <deployment table="Albums" typecode="30269"/>
+            <attributes>
+                <attribute qualifier="name" type="java.lang.String">
+                    <description>name of the band album</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="albumSales" type="java.lang.Long">
+                    <description>official global album sales</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="songs" type="SongCollection">
+                    <description>songs of the album</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="Concert" extends="VariantProduct">
+            <attributes>
+                <attribute qualifier="venue" type="java.lang.String">
+                    <description>venue of concert</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="date" type="java.util.Date">
+                    <description>date of concert</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="concertType" type="ConcertType">
+                    <description>type of concert (indoors or open air)</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="ConcertTicket">
+            <deployment table="ConcertTickets" typecode="30270"/>
+            <attributes>
+                <attribute qualifier="price" type="java.math.BigDecimal">
+                    <description>price of the ticket according to the ticket type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="totalCount" type="java.lang.Long">
+                    <description>total count of tickets according to the ticket type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="availableCount" type="java.lang.Long">
+                    <description>available count of tickets according to the ticket type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="concertTicketType" type="ConcertTicketType">
+                    <description>type of concert ticket</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+    </itemtypes>
+</items>
