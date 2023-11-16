@@ -29,8 +29,11 @@
                     <input type="password" name="j_password" placeholder="Password" value=""/>
                 </p>
                 <p>
-                    <label><input type="checkbox" name="_spring_security_remember_me" class="checkbox"
-                                  id="_spring_security_remember_me"/> Remember Login</label>
+                    <label>
+                        <input type="checkbox" name="_spring_security_remember_me" class="checkbox"
+                               id="_spring_security_remember_me"/>
+                        Remember Login
+                    </label>
                 </p>
                 <p>
                     <button type="submit" class="button" autofocus>login</button>

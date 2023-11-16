@@ -2,42 +2,28 @@
 <!--
  Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
 -->
-<!--
-	ATTENTION: This is just an example file. You have to edit it according to your needs.
--->
-
 <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="items.xsd">
-
-
     <collectiontypes>
         <collectiontype code="SongCollection" elementtype="java.lang.String" type="list"/>
     </collectiontypes>
 
-
     <enumtypes>
-
         <enumtype code="ConcertType" dynamic="false">
             <value code="openair"/>
             <value code="indoor"/>
         </enumtype>
-
         <enumtype code="MusicType" dynamic="true">
         </enumtype>
-
         <enumtype code="ConcertTicketType" dynamic="true">
         </enumtype>
-
     </enumtypes>
-
 
     <maptypes>
         <maptype code="AlbumMap" argumenttype="java.lang.String" returntype="Band"/>
     </maptypes>
 
-
     <relations>
-
         <relation code="Product2RockBand" generate="false" localized="false">
             <sourceElement qualifier="tours" type="Product" collectiontype="set" cardinality="many" ordered="false">
                 <modifiers read="true" write="true" search="true" optional="true"/>
@@ -46,7 +32,6 @@
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
-
         <relation code="Band2MusicType" generate="false" localized="false">
             <deployment table="Band2MusicType" typecode="30267"/>
             <sourceElement qualifier="bands" type="Band" collectiontype="set" cardinality="many" ordered="false">
@@ -56,7 +41,6 @@
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
-
         <relation code="Concert2ConcertTicket" generate="false" localized="false">
             <sourceElement qualifier="concert" type="Concert" collectiontype="set" cardinality="one" ordered="false">
                 <modifiers read="true" write="true" search="true" optional="true"/>
@@ -65,7 +49,6 @@
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
-
         <relation code="Band2Album" localized="false">
             <sourceElement qualifier="band" type="Band" collectiontype="set" cardinality="one" ordered="false">
                 <modifiers read="true" write="true" search="true" optional="true"/>
@@ -74,12 +57,9 @@
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
-
     </relations>
 
-
     <itemtypes>
-
         <itemtype code="Product" autocreate="false">
             <attributes>
                 <attribute qualifier="hashtag" type="java.lang.String">
@@ -88,7 +68,6 @@
                 </attribute>
             </attributes>
         </itemtype>
-
         <itemtype code="Band">
             <deployment table="Bands" typecode="30268"/>
             <attributes>
@@ -106,7 +85,6 @@
                 </attribute>
             </attributes>
         </itemtype>
-
         <itemtype code="Album">
             <deployment table="Albums" typecode="30269"/>
             <attributes>
@@ -124,7 +102,6 @@
                 </attribute>
             </attributes>
         </itemtype>
-
         <itemtype code="Concert" extends="VariantProduct">
             <attributes>
                 <attribute qualifier="venue" type="java.lang.String">
@@ -141,7 +118,6 @@
                 </attribute>
             </attributes>
         </itemtype>
-
         <itemtype code="ConcertTicket">
             <deployment table="ConcertTickets" typecode="30270"/>
             <attributes>
@@ -163,6 +139,5 @@
                 </attribute>
             </attributes>
         </itemtype>
-
     </itemtypes>
 </items>

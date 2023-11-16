@@ -3,7 +3,7 @@ hs_err_pid*
 ##################
 # Custom Ignores #
 ##################
-
+dummy.txt
 
 ########################
 # Java generated files #
