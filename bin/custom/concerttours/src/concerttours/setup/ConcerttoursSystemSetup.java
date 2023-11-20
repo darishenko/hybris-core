@@ -3,14 +3,13 @@
  */
 package concerttours.setup;
 
-import static concerttours.constants.ConcerttoursConstants.PLATFORM_LOGO_CODE;
-
+import concerttours.constants.ConcerttoursConstants;
+import concerttours.service.ConcerttoursService;
 import de.hybris.platform.core.initialization.SystemSetup;
 
 import java.io.InputStream;
 
-import concerttours.constants.ConcerttoursConstants;
-import concerttours.service.ConcerttoursService;
+import static concerttours.constants.ConcerttoursConstants.PLATFORM_LOGO_CODE;
 
 
 @SystemSetup(extension = ConcerttoursConstants.EXTENSIONNAME)
