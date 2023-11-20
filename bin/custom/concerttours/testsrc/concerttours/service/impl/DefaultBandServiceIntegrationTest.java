@@ -88,7 +88,7 @@ public class DefaultBandServiceIntegrationTest extends ServicelayerTest {
      * returns the data it receives from it.
      */
     @Test
-    public void testBandServiceTours() throws Exception {
+    public void bandServiceTours() throws Exception {
         createCoreData();
         importCsv("/impex/concerttours-bands.impex", "utf-8");
         importCsv("/impex/concerttours-yBandTour.impex", "utf-8");

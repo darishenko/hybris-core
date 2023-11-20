@@ -12,10 +12,7 @@ import java.util.List;
 @Component(value = "bandDAO")
 public class DefaultBandDAO implements BandDAO {
     private static final String QUERY_SELECT_ALL_BANDS = "SELECT {p:"
-            + BandModel.PK + "}, {p:"
-            + BandModel.CODE + "}, {p:"
-            + BandModel.NAME + "}, {p:"
-            + BandModel.HISTORY + "} FROM {"
+            + BandModel.PK + "} FROM {"
             + BandModel._TYPECODE + " AS p} ";
     private static final String QUERY_WHERE_BAND_CODE = " WHERE {p:" + BandModel.CODE + "}=?" + BandModel.CODE;
     private static final String QUERY_SELECT_BAND_WHERE_CODE = QUERY_SELECT_ALL_BANDS + QUERY_WHERE_BAND_CODE;

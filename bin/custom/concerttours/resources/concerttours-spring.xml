@@ -12,11 +12,6 @@
 >
     <context:component-scan base-package="concerttours"/>
 
-    <alias name="defaultBandService" alias="bandService"/>
-    <bean id="defaultBandService" class="concerttours.service.impl.DefaultBandService">
-        <property name="bandDAO" ref="bandDAO"/>
-    </bean>
-
     <bean id="concerttoursSystemSetup" class="concerttours.setup.ConcerttoursSystemSetup">
         <constructor-arg ref="concerttoursService"/>
     </bean>
@@ -25,5 +20,18 @@
         <property name="modelService" ref="modelService"/>
         <property name="mediaService" ref="mediaService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+    <alias name="defaultBandService" alias="bandService"/>
+    <bean id="defaultBandService" class="concerttours.service.impl.DefaultBandService">
+        <property name="bandDAO" ref="bandDAO"/>
+    </bean>
+
+    <alias name="defaultBandFacade" alias="bandFacade"/>
+    <bean id="defaultBandFacade" class="concerttours.facades.impl.DefaultBandFacade">
+        <property name="bandService" ref="bandService"/>
+    </bean>
+    <alias name="defaultTourFacade" alias="tourFacade"/>
+    <bean id="defaultTourFacade" class="concerttours.facades.impl.DefaultTourFacade">
+        <property name="productService" ref="productService"/>
     </bean>
 </beans>
