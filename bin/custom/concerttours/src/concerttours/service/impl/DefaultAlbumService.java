@@ -16,7 +16,7 @@ public class DefaultAlbumService implements AlbumService {
     }
 
     @Override
-    public List<AlbumModel> findAlbumsByBandPk(String bandCode) {
-        return albumDAO.findAlbumsByBandPk(bandCode);
+    public List<AlbumModel> findAlbumsByBandPk(Long bandPk) {
+        return albumDAO.findAlbumsByBandPk(bandPk);
     }
 }

@@ -85,14 +85,14 @@ public class DefaultBandDAOIntegrationTest extends ServicelayerTransactionalTest
     }
 
     @Test
-    public void findBands_EmptyStringParam_noBands() {
+    public void findBandsByCode_emptyStringParam_noBands() {
         final List<BandModel> bands = bandDAO.findBandsByCode("");
         Assert.assertTrue("No Band should be returned", bands.isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void findBands_NullParam_IllegalArgumentException() {
-        bandDAO.findBandsByCode(null); //method's return value not captured
+    public void findBandsByCode_nullParam_IllegalArgumentException() {
+        bandDAO.findBandsByCode(null);
     }
 
     @After

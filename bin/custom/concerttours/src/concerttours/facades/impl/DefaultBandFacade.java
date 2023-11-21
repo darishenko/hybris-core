@@ -63,7 +63,7 @@ public class DefaultBandFacade implements BandFacade {
         final BandData bandData = new BandData();
         final List<String> genres = getBandGenres(band);
         final List<TourSummaryData> tours = getBandTourSummaryData(band);
-        final List<AlbumData> albums = getBandAlbumData(band.getPk().getLongValueAsString());
+        final List<AlbumData> albums = getBandAlbumData(band.getPk().getLong());
 
         bandData.setId(band.getCode());
         bandData.setName(band.getName());
@@ -98,7 +98,7 @@ public class DefaultBandFacade implements BandFacade {
         return tourSummaryData;
     }
 
-    private List<AlbumData> getBandAlbumData(String bandPk) {
+    private List<AlbumData> getBandAlbumData(Long bandPk) {
         List<AlbumData> albumDataList = new ArrayList<>();
         final List<AlbumModel> albums = albumService.findAlbumsByBandPk(bandPk);
         for (final AlbumModel albumModel : albums) {

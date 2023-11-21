@@ -21,7 +21,7 @@ public class DefaultAlbumDAO implements AlbumDAO {
     private FlexibleSearchService flexibleSearchService;
 
     @Override
-    public List<AlbumModel> findAlbumsByBandPk(String bandPk) {
+    public List<AlbumModel> findAlbumsByBandPk(Long bandPk) {
         final FlexibleSearchQuery query = new FlexibleSearchQuery(QUERY_SELECT_ALL_ALBUMS_BY_BAND_PK);
         query.addQueryParameter(AlbumModel.BAND, bandPk);
         return flexibleSearchService.<AlbumModel>search(query).getResult();

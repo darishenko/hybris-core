@@ -5,5 +5,5 @@ import concerttours.model.AlbumModel;
 import java.util.List;
 
 public interface AlbumService {
-    List<AlbumModel> findAlbumsByBandPk(String bandCode);
+    List<AlbumModel> findAlbumsByBandPk(Long bandPk);
 }

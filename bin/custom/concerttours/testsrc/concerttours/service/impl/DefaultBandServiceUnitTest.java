@@ -50,7 +50,7 @@ public class DefaultBandServiceUnitTest {
      * and returns the data it receives from it.
      */
     @Test
-    public void getAllBands_existingBand_returnBand() {
+    public void getAllBands_existingBand_band() {
         final List<BandModel> bandModels = Collections.singletonList(bandModel);
         when(bandDAO.findBands()).thenReturn(bandModels);
 
@@ -61,7 +61,7 @@ public class DefaultBandServiceUnitTest {
     }
 
     @Test
-    public void getBand_existingBandCode_returnBand() {
+    public void getBand_existingBandCode_band() {
         when(bandDAO.findBandsByCode(BAND_CODE)).thenReturn(Collections.singletonList(bandModel));
 
         final BandModel result = bandService.getBandForCode(BAND_CODE);
