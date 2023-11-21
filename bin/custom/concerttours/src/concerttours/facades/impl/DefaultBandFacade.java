@@ -1,10 +1,13 @@
 package concerttours.facades.impl;
 
+import concerttours.data.AlbumData;
 import concerttours.data.BandData;
 import concerttours.data.TourSummaryData;
 import concerttours.enums.MusicType;
 import concerttours.facades.BandFacade;
+import concerttours.model.AlbumModel;
 import concerttours.model.BandModel;
+import concerttours.service.AlbumService;
 import concerttours.service.BandService;
 import de.hybris.platform.core.model.product.ProductModel;
 import org.springframework.beans.factory.annotation.Required;
@@ -16,10 +19,16 @@ import java.util.Objects;
 public class DefaultBandFacade implements BandFacade {
     private static final String NULL_BAND_NAME = "Band name cannot be null";
     private BandService bandService;
+    private AlbumService albumService;
 
     @Required
     public void setBandService(final BandService bandService) {
         this.bandService = bandService;
+    }
+
+    @Required
+    public void setAlbumService(final AlbumService albumService) {
+        this.albumService = albumService;
     }
 
     @Override
@@ -54,12 +63,14 @@ public class DefaultBandFacade implements BandFacade {
         final BandData bandData = new BandData();
         final List<String> genres = getBandGenres(band);
         final List<TourSummaryData> tours = getBandTourSummaryData(band);
+        final List<AlbumData> albums = getBandAlbumData(band.getPk().getLongValueAsString());
 
         bandData.setId(band.getCode());
         bandData.setName(band.getName());
         bandData.setDescription(band.getHistory());
         bandData.setGenres(genres);
         bandData.setTours(tours);
+        bandData.setAlbums(albums);
         return bandData;
     }
 
@@ -87,5 +98,17 @@ public class DefaultBandFacade implements BandFacade {
         return tourSummaryData;
     }
 
+    private List<AlbumData> getBandAlbumData(String bandPk) {
+        List<AlbumData> albumDataList = new ArrayList<>();
+        final List<AlbumModel> albums = albumService.findAlbumsByBandPk(bandPk);
+        for (final AlbumModel albumModel : albums) {
+            final AlbumData album = new AlbumData();
+            album.setName(albumModel.getName());
+            album.setAlbumSales(Long.toString(albumModel.getAlbumSales()));
+            album.setSongs(albumModel.getSongs());
+            albumDataList.add(album);
+        }
+        return albumDataList;
+    }
 
 }

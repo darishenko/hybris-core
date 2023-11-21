@@ -25,10 +25,15 @@
     <bean id="defaultBandService" class="concerttours.service.impl.DefaultBandService">
         <property name="bandDAO" ref="bandDAO"/>
     </bean>
+    <alias name="defaultAlbumService" alias="albumService"/>
+    <bean id="defaultAlbumService" class="concerttours.service.impl.DefaultAlbumService">
+        <property name="albumDAO" ref="albumDAO"/>
+    </bean>
 
     <alias name="defaultBandFacade" alias="bandFacade"/>
     <bean id="defaultBandFacade" class="concerttours.facades.impl.DefaultBandFacade">
         <property name="bandService" ref="bandService"/>
+        <property name="albumService" ref="albumService"/>
     </bean>
     <alias name="defaultTourFacade" alias="tourFacade"/>
     <bean id="defaultTourFacade" class="concerttours.facades.impl.DefaultTourFacade">

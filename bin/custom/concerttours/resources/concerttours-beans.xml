@@ -3,6 +3,12 @@
  Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
 -->
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+    <bean class="concerttours.data.AlbumData">
+        <description>Data object representing an abum of the band</description>
+        <property name="name" type="String"/>
+        <property name="albumSales" type="String"/>
+        <property name="songs" type="java.util.List&lt;String&gt;"/>
+    </bean>
     <bean class="concerttours.data.TourSummaryData">
         <description>Data object for a tour summary which has no equivalent on the type system</description>
         <property name="id" type="String"/>
@@ -14,9 +20,9 @@
         <property name="id" type="String"/>
         <property name="name" type="String"/>
         <property name="description" type="String"/>
-        <!--        <property name = "albumsSold" type = "Long" />-->
         <property name="genres" type="java.util.List&lt;String&gt;"/>
         <property name="tours" type="java.util.List&lt;concerttours.data.TourSummaryData&gt;"/>
+        <property name="albums" type="java.util.List&lt;concerttours.data.AlbumData&gt;"/>
     </bean>
     <bean class="concerttours.data.ConcertSummaryData">
         <description>Data object for a concert summary</description>

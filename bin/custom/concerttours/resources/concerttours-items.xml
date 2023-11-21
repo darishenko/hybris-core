@@ -42,18 +42,19 @@
             </targetElement>
         </relation>
         <relation code="Concert2ConcertTicket" generate="false" localized="false">
-            <sourceElement qualifier="concert" type="Concert" collectiontype="set" cardinality="one" ordered="false">
+            <sourceElement qualifier="concert" type="Concert" cardinality="one">
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </sourceElement>
-            <targetElement qualifier="tickets" type="ConcertTicket" cardinality="many">
+            <targetElement qualifier="tickets" type="ConcertTicket" cardinality="many" collectiontype="set"
+                           ordered="false">
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
         <relation code="Band2Album" localized="false">
-            <sourceElement qualifier="band" type="Band" collectiontype="set" cardinality="one" ordered="false">
+            <sourceElement qualifier="band" type="Band" cardinality="one" ordered="false">
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </sourceElement>
-            <targetElement qualifier="album" type="Album" cardinality="many">
+            <targetElement qualifier="album" type="Album" cardinality="many" collectiontype="set" ordered="false">
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
