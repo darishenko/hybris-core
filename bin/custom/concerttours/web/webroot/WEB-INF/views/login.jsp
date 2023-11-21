@@ -23,10 +23,14 @@
 
             <fieldset class="login-form">
                 <p>
-                    <input type="text" name="j_username" placeholder="Username" value="admin"/>
+                    <label>
+                        <input type="text" name="j_username" placeholder="Username" value="admin"/>
+                    </label>
                 </p>
                 <p>
-                    <input type="password" name="j_password" placeholder="Password" value=""/>
+                    <label>
+                        <input type="password" name="j_password" placeholder="Password" value=""/>
+                    </label>
                 </p>
                 <p>
                     <label>
@@ -37,7 +41,6 @@
                 </p>
                 <p>
                     <button type="submit" class="button" autofocus>login</button>
-                    <sec:csrfInput/>
                 </p>
             </fieldset>
         </div>
