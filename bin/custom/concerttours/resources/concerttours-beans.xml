@@ -4,7 +4,7 @@
 -->
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
     <bean class="concerttours.data.AlbumData">
-        <description>Data object representing an abum of the band</description>
+        <description>Data object representing an album of the band</description>
         <property name="name" type="String"/>
         <property name="albumSales" type="String"/>
         <property name="songs" type="java.util.List&lt;String&gt;"/>

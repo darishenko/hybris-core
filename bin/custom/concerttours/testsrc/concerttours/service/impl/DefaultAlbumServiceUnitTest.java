@@ -6,6 +6,8 @@ import de.hybris.bootstrap.annotations.UnitTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,20 +22,23 @@ public class DefaultAlbumServiceUnitTest {
     private static final String ALBUM_NAME = "album 1";
 
     private DefaultAlbumService albumService;
+    @Mock
     private AlbumDAO albumDAO;
+    @Mock
     private AlbumModel albumModel;
 
     @Before
     public void setUp() {
-        albumService = new DefaultAlbumService();
+        MockitoAnnotations.initMocks(this);
 
-        albumDAO = mock(AlbumDAO.class);
+        albumService = new DefaultAlbumService();
         albumService.setAlbumDAO(albumDAO);
     }
 
     @Test
     public void findAlbumsByBandPk_existingBandPk_album() {
         final List<AlbumModel> albumModels = Collections.singletonList(albumModel);
+
         when(albumDAO.findAlbumsByBandPk(ArgumentMatchers.<Long>any())).thenReturn(albumModels);
 
         final List<AlbumModel> result = albumService.findAlbumsByBandPk(BAND_PK);

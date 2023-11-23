@@ -8,6 +8,8 @@ import de.hybris.platform.servicelayer.model.ModelService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,22 +22,26 @@ public class DefaultBandFacadeUnitTest {
     private static final String BAND_CODE = "ROCK-11";
     private static final String BAND_NAME = "Ladies of Rock";
     private static final String BAND_HISTORY = "All female rock band formed in Munich in the late 1990s";
+
     private DefaultBandFacade bandFacade;
+    @Mock
     private ModelService modelService;
+    @Mock
     private BandService bandService;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
+
         bandFacade = new DefaultBandFacade();
-        modelService = mock(ModelService.class);
-        bandService = mock(BandService.class);
         bandFacade.setBandService(bandService);
     }
 
     @Test
     public void getAllBands_notEmptyBandList() {
-        final List<BandModel> bands = dummyDataBandList();
-        final BandModel band = configTestBand();
+        final List<BandModel> bands = getDataBandList();
+        final BandModel band = createTestBand();
+
         when(bandService.getBands()).thenReturn(bands);
 
         final List<BandData> dto = bandFacade.getBands();
@@ -49,10 +55,11 @@ public class DefaultBandFacadeUnitTest {
 
     @Test
     public void getBand_existingBandCode_band() {
-        final BandModel band = configTestBand();
+        final BandModel band = createTestBand();
+
         when(bandService.getBandForCode(BAND_CODE)).thenReturn(band);
 
-        final BandData dto = bandFacade.getBand(BAND_CODE);
+        final BandData dto = bandFacade.getBand(BAND_CODE).get();
 
         Assert.assertNotNull(dto);
         Assert.assertEquals(band.getCode(), dto.getId());
@@ -60,19 +67,24 @@ public class DefaultBandFacadeUnitTest {
         Assert.assertEquals(band.getHistory(), dto.getDescription());
     }
 
-    private BandModel configTestBand() {
+    private BandModel createTestBand() {
         final BandModel band = new BandModel();
+
         band.setCode(BAND_CODE);
-        modelService.attach(band);
         band.setName(BAND_NAME);
         band.setHistory(BAND_HISTORY);
+
+        modelService.attach(band);
+
         return band;
     }
 
-    private List<BandModel> dummyDataBandList() {
+    private List<BandModel> getDataBandList() {
         final List<BandModel> bands = new ArrayList<BandModel>();
-        final BandModel band = configTestBand();
+        final BandModel band = createTestBand();
+
         bands.add(band);
+
         return bands;
     }
 }

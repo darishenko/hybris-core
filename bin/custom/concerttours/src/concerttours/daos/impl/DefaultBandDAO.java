@@ -22,12 +22,15 @@ public class DefaultBandDAO implements BandDAO {
 
     public List<BandModel> findBands() {
         final FlexibleSearchQuery query = new FlexibleSearchQuery(QUERY_SELECT_ALL_BANDS);
+
         return flexibleSearchService.<BandModel>search(query).getResult();
     }
 
     public List<BandModel> findBandsByCode(String code) {
         final FlexibleSearchQuery query = new FlexibleSearchQuery(QUERY_SELECT_BAND_WHERE_CODE);
+
         query.addQueryParameter(BandModel.CODE, code);
+
         return flexibleSearchService.<BandModel>search(query).getResult();
     }
 }

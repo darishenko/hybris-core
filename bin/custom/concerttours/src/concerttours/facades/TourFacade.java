@@ -2,6 +2,8 @@ package concerttours.facades;
 
 import concerttours.data.TourData;
 
+import java.util.Optional;
+
 public interface TourFacade {
-    TourData getTourDetails(final String tourId);
+    Optional<TourData> getTourDetails(final String tourId);
 }

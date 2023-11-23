@@ -24,8 +24,6 @@ INSERT ConcertTicket;price;totalCount;availableCount;concertTicketType(code)
 ;123.0;1012;12;vip
 ;1000.0;1000;10;
 
-
-
 INSERT_UPDATE ConcertTicketType;code[unique=true]
 ;vip
 ;dancefloor

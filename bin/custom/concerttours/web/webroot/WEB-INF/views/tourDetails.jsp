@@ -18,7 +18,9 @@ Tour Details for ${tour.tourName}
         <tr>
             <td>${concert.venue}</td>
             <td>${concert.type}</td>
-            <td><fmt:formatDate pattern="dd MMM yyyy" value="${concert.date}"/></td>
+            <td>
+                <fmt:formatDate pattern="dd MMM yyyy" value="${concert.date}"/>
+            </td>
         </tr>
     </c:forEach>
 </table>

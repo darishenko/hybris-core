@@ -6,6 +6,7 @@ import concerttours.service.BandService;
 import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class DefaultBandService implements BandService {
     private static final String BAND_WITH_CODE_NOT_FOUND = "Band with code '%s' not found!";
     private static final String BAND_CODE_NOT_UNIQUE = "Band code '%s' is not unique.";
     private static final String BAND_WITH_NOT_UNIQUE_CODE_COUNT = "%d bands found!";
+
     private BandDAO bandDAO;
 
     @Required
@@ -29,13 +31,16 @@ public class DefaultBandService implements BandService {
     @Override
     public BandModel getBandForCode(String code) {
         List<BandModel> bands = bandDAO.findBandsByCode(code);
-        if (bands.isEmpty()) {
+
+        if (CollectionUtils.isEmpty(bands)) {
             throw new UnknownIdentifierException(String.format(BAND_WITH_CODE_NOT_FOUND, code));
         }
+
         if (bands.size() > 1) {
             throw new AmbiguousIdentifierException(String.format(BAND_CODE_NOT_UNIQUE, code)
                     .concat(String.format(BAND_WITH_NOT_UNIQUE_CODE_COUNT, bands.size())));
         }
+
         return bands.get(0);
     }
 }

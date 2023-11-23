@@ -9,15 +9,18 @@ import concerttours.model.AlbumModel;
 import concerttours.model.BandModel;
 import concerttours.service.AlbumService;
 import concerttours.service.BandService;
-import de.hybris.platform.core.model.product.ProductModel;
 import org.springframework.beans.factory.annotation.Required;
+import reactor.util.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DefaultBandFacade implements BandFacade {
     private static final String NULL_BAND_NAME = "Band name cannot be null";
+
     private BandService bandService;
     private AlbumService albumService;
 
@@ -34,32 +37,33 @@ public class DefaultBandFacade implements BandFacade {
     @Override
     public List<BandData> getBands() {
         final List<BandModel> bandModels = bandService.getBands();
-        final List<BandData> bandFacadeData = new ArrayList<>();
-        for (final BandModel sm : bandModels) {
-            final BandData sfd = new BandData();
-            sfd.setId(sm.getCode());
-            sfd.setName(sm.getName());
-            sfd.setDescription(sm.getHistory());
-            bandFacadeData.add(sfd);
-        }
+        List<BandData> bandFacadeData = new ArrayList<>();
+
+        bandFacadeData = bandModels.stream()
+                .map(bandModel -> {
+                    final BandData sfd = new BandData();
+                    sfd.setId(bandModel.getCode());
+                    sfd.setName(bandModel.getName());
+                    sfd.setDescription(bandModel.getHistory());
+                    return sfd;
+                }).collect(Collectors.toList());
+
         return bandFacadeData;
     }
 
     @Override
-    public BandData getBand(final String name) {
-        if (Objects.isNull(name)) {
-            throw new IllegalArgumentException(NULL_BAND_NAME);
-        }
+    public Optional<BandData> getBand(@NonNull final String name) {
         final BandModel band = bandService.getBandForCode(name);
-        if (Objects.isNull(band)) {
-            return null;
-        }
 
-        final BandData bandData = createBandData(band);
-        return bandData;
+        if (Objects.isNull(band)) {
+            return Optional.empty();
+        }
+        final BandData bandData = getBandData(band);
+
+        return Optional.of(bandData);
     }
 
-    private BandData createBandData(BandModel band) {
+    private BandData getBandData(BandModel band) {
         final BandData bandData = new BandData();
         final List<String> genres = getBandGenres(band);
         final List<TourSummaryData> tours = getBandTourSummaryData(band);
@@ -71,43 +75,52 @@ public class DefaultBandFacade implements BandFacade {
         bandData.setGenres(genres);
         bandData.setTours(tours);
         bandData.setAlbums(albums);
+
         return bandData;
     }
 
     private List<String> getBandGenres(BandModel band) {
-        final List<String> genres = new ArrayList<>();
-        if (band.getTypes() != null) {
-            for (final MusicType musicType : band.getTypes()) {
-                genres.add(musicType.getCode());
-            }
+        List<String> genres = new ArrayList<>();
+
+        if (Objects.nonNull(band.getTypes())) {
+            genres = band.getTypes().stream()
+                    .map(MusicType::getCode)
+                    .collect(Collectors.toList());
         }
+
         return genres;
     }
 
     private List<TourSummaryData> getBandTourSummaryData(BandModel band) {
         List<TourSummaryData> tourSummaryData = new ArrayList<>();
+
         if (Objects.nonNull(band.getTours())) {
-            for (final ProductModel tour : band.getTours()) {
-                final TourSummaryData tourData = new TourSummaryData();
-                tourData.setId(tour.getCode());
-                tourData.setTourName(tour.getName());
-                tourData.setNumberOfConcerts(Integer.toString(tour.getVariants().size()));
-                tourSummaryData.add(tourData);
-            }
+            tourSummaryData = band.getTours().stream()
+                    .map(tour -> {
+                        final TourSummaryData tourData = new TourSummaryData();
+                        tourData.setId(tour.getCode());
+                        tourData.setTourName(tour.getName());
+                        tourData.setNumberOfConcerts(Integer.toString(tour.getVariants().size()));
+                        return tourData;
+                    }).collect(Collectors.toList());
         }
+
         return tourSummaryData;
     }
 
     private List<AlbumData> getBandAlbumData(Long bandPk) {
         List<AlbumData> albumDataList = new ArrayList<>();
         final List<AlbumModel> albums = albumService.findAlbumsByBandPk(bandPk);
-        for (final AlbumModel albumModel : albums) {
-            final AlbumData album = new AlbumData();
-            album.setName(albumModel.getName());
-            album.setAlbumSales(Long.toString(albumModel.getAlbumSales()));
-            album.setSongs(albumModel.getSongs());
-            albumDataList.add(album);
-        }
+
+        albumDataList = albums.stream()
+                .map(albumModel -> {
+                    final AlbumData album = new AlbumData();
+                    album.setName(albumModel.getName());
+                    album.setAlbumSales(Long.toString(albumModel.getAlbumSales()));
+                    album.setSongs(albumModel.getSongs());
+                    return album;
+                }).collect(Collectors.toList());
+
         return albumDataList;
     }
 

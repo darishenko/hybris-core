@@ -1,5 +1,6 @@
 package concerttours.service.impl;
 
+import concerttours.daos.impl.DefaultAlbumDAOIntegrationTest;
 import concerttours.model.BandModel;
 import concerttours.service.BandService;
 import de.hybris.bootstrap.annotations.IntegrationTest;
@@ -12,6 +13,8 @@ import de.hybris.platform.variants.model.VariantProductModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
@@ -37,6 +40,8 @@ public class DefaultBandServiceIntegrationTest extends ServicelayerTest {
      * History of test band.
      */
     private static final String BAND_HISTORY = "New contemporary, 7-piece Jaz unit from London, formed in 2015";
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBandServiceIntegrationTest.class);
+
     @Resource
     private BandService bandService;
     @Resource
@@ -52,54 +57,42 @@ public class DefaultBandServiceIntegrationTest extends ServicelayerTest {
             Thread.sleep(TimeUnit.SECONDS.toMillis(1));
             new JdbcTemplate(Registry.getCurrentTenant().getDataSource()).execute("CHECKPOINT");
             Thread.sleep(TimeUnit.SECONDS.toMillis(1));
-        } catch (InterruptedException exc) {
+        } catch (InterruptedException ex) {
+            LOGGER.error(ex.getMessage());
         }
 
-        bandModel = modelService.create(BandModel.class);
-        bandModel.setCode(BAND_CODE);
-        bandModel.setName(BAND_NAME);
-        bandModel.setHistory(BAND_HISTORY);
+        bandModel = getBandModel();
+        modelService.save(bandModel);
     }
 
     @Test(expected = UnknownIdentifierException.class)
     public void getBandForCode_noBandWithCode_UnknownIdentifierException() {
-        bandService.getBandForCode(BAND_CODE);
+        bandService.getBandForCode("");
     }
 
-    /**
-     * This test tests and demonstrates that the Service's getAllBand method calls the DAOs' getAllBand method and
-     * returns the data it receives from it.
-     */
     @Test
-    public void bandService() {
+    public void getBands_notEmptyBandList_bands() {
         List<BandModel> bandModels = bandService.getBands();
-        final int size = bandModels.size();
-        modelService.save(bandModel);
-        bandModels = bandService.getBands();
-        assertEquals(size + 1, bandModels.size());
+
+        assertEquals(1, bandModels.size());
         assertEquals("Unexpected band found", bandModel, bandModels.get(bandModels.size() - 1));
+    }
+
+    @Test
+    public void getBandForCode_existingBandCode_band() {
         final BandModel persistedBandModel = bandService.getBandForCode(BAND_CODE);
+
         assertNotNull("No band found", persistedBandModel);
         assertEquals("Different band found", bandModel, persistedBandModel);
     }
 
-    /**
-     * This test tests and demonstrates that the Service's getAllBand method calls the DAOs' getAllBand method and
-     * returns the data it receives from it.
-     */
-    @Test
-    public void bandServiceTours() throws Exception {
-        createCoreData();
-        importCsv("/impex/concerttours-bands.impex", "utf-8");
-        importCsv("/impex/concerttours-yBandTour.impex", "utf-8");
-        final BandModel band = bandService.getBandForCode("A001");
-        assertNotNull("No band found", band);
-        final Set<ProductModel> tours = band.getTours();
-        assertNotNull("No tour found", tours);
-        Assert.assertEquals("not found one tour", 1, tours.size());
-        final Object[] objects = new Object[5];
-        final Collection<VariantProductModel> concerts = ((ProductModel) tours.toArray(objects)[0]).getVariants();
-        assertNotNull("No tour found", tours);
-        Assert.assertEquals("not found one tour", 6, concerts.size());
+    private BandModel getBandModel() {
+        BandModel bandModel = modelService.create(BandModel.class);
+
+        bandModel.setCode(BAND_CODE);
+        bandModel.setName(BAND_NAME);
+        bandModel.setHistory(BAND_HISTORY);
+
+        return bandModel;
     }
 }

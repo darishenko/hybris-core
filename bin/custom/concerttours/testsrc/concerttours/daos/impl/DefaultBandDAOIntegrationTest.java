@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
@@ -26,6 +28,7 @@ import static org.junit.Assert.assertTrue;
  */
 @IntegrationTest
 public class DefaultBandDAOIntegrationTest extends ServicelayerTransactionalTest {
+    private static final String CHECKPOINT = "CHECKPOINT";
     /**
      * Name of test band.
      */
@@ -38,6 +41,9 @@ public class DefaultBandDAOIntegrationTest extends ServicelayerTransactionalTest
      * History of test band.
      */
     private static final String BAND_HISTORY = "All female rock band formed in Munich in the late 1990s";
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBandDAOIntegrationTest.class);
+
+    private BandModel bandModel;
     /**
      * As this is an integration test, the class (object) being tested gets injected here.
      */
@@ -53,50 +59,56 @@ public class DefaultBandDAOIntegrationTest extends ServicelayerTransactionalTest
     public void setUp() throws Exception {
         try {
             Thread.sleep(TimeUnit.SECONDS.toMillis(1));
-            new JdbcTemplate(Registry.getCurrentTenant().getDataSource()).execute("CHECKPOINT");
+            new JdbcTemplate(Registry.getCurrentTenant().getDataSource()).execute(CHECKPOINT);
             Thread.sleep(TimeUnit.SECONDS.toMillis(1));
-        } catch (InterruptedException exc) {
+        } catch (InterruptedException ex) {
+            LOGGER.error(ex.getMessage());
         }
-    }
 
-    @Test
-    public void bandDAOTest() {
-        List<BandModel> bandsByCode = bandDAO.findBandsByCode(BAND_CODE);
-        assertTrue("No Band should be returned", bandsByCode.isEmpty());
-
-        List<BandModel> allBands = bandDAO.findBands();
-        final int size = allBands.size();
-
-        final BandModel bandModel = modelService.create(BandModel.class);
-        bandModel.setCode(BAND_CODE);
-        bandModel.setName(BAND_NAME);
-        bandModel.setHistory(BAND_HISTORY);
+        bandModel = getBandModel();
         modelService.save(bandModel);
-
-        allBands = bandDAO.findBands();
-        Assert.assertEquals(size + 1, allBands.size());
-        Assert.assertTrue("band not found", allBands.contains(bandModel));
-
-        bandsByCode = bandDAO.findBandsByCode(BAND_CODE);
-        Assert.assertEquals("Did not find the Band we just saved", 1, bandsByCode.size());
-        Assert.assertEquals("Retrieved Band's code attribute incorrect", BAND_CODE, bandsByCode.get(0).getCode());
-        Assert.assertEquals("Retrieved Band's name attribute incorrect", BAND_NAME, bandsByCode.get(0).getName());
-        Assert.assertEquals("Retrieved Band's history attribute incorrect", BAND_HISTORY, bandsByCode.get(0).getHistory());
     }
 
     @Test
-    public void findBandsByCode_emptyStringParam_noBands() {
+    public void findBands_notEmptyBandsTable_bands() {
+        List<BandModel> allBands = bandDAO.findBands();
+
+        Assert.assertEquals(1, allBands.size());
+        Assert.assertTrue("Band not found", allBands.contains(bandModel));
+    }
+
+    @Test
+    public void findBandsByCode_existingBandCode_band() {
+        List<BandModel> bandsByCode = bandDAO.findBandsByCode(BAND_CODE);
+
+        Assert.assertEquals("Did not find the Band we just saved", 1, bandsByCode.size());
+        Assert.assertEquals("Retrieved Band's code attribute incorrect",
+                BAND_CODE, bandsByCode.get(0).getCode());
+        Assert.assertEquals("Retrieved Band's name attribute incorrect",
+                BAND_NAME, bandsByCode.get(0).getName());
+        Assert.assertEquals("Retrieved Band's history attribute incorrect",
+                BAND_HISTORY, bandsByCode.get(0).getHistory());
+    }
+
+    @Test
+    public void findBandsByCode_emptyBandCode_noBands() {
         final List<BandModel> bands = bandDAO.findBandsByCode("");
+
         Assert.assertTrue("No Band should be returned", bands.isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void findBandsByCode_nullParam_IllegalArgumentException() {
+    public void findBandsByCode_nullBandCode_IllegalArgumentException() {
         bandDAO.findBandsByCode(null);
     }
 
-    @After
-    public void tearDown() {
+    private BandModel getBandModel() {
+        final BandModel bandModel = modelService.create(BandModel.class);
 
+        bandModel.setCode(BAND_CODE);
+        bandModel.setName(BAND_NAME);
+        bandModel.setHistory(BAND_HISTORY);
+
+        return bandModel;
     }
 }
