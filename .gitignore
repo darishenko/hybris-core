@@ -4,6 +4,8 @@ hs_err_pid*
 # Custom Ignores #
 ##################
 dummy.txt
+${HYBRIS_DATA_DIR}/hsqldb
+*.iml
 
 ########################
 # Java generated files #

@@ -18,8 +18,6 @@ INSERT_UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true];activ
 # Insert Products
 INSERT_UPDATE Product;code[unique=true];name;band(code);$supercategories;manufacturerName;manufacturerAID;unit(code);ean;variantType(code);$catalogVersion;$approved
 ;201701;The Grand Little x Tour;A001;;x;y;pieces;;Concert
-;201702;The Grand Tour 2;A006;;x;y;pieces;;Concert
-;201703;The Grand Tour 2;A006;;x;y;pieces;;Concert
  
 # Insert Products
 INSERT_UPDATE Concert;code[unique=true];name;date[dateformat=dd.MM.yyyy];venue;concertType(code);baseProduct(code);$catalogVersion;$approved
@@ -29,6 +27,3 @@ INSERT_UPDATE Concert;code[unique=true];name;date[dateformat=dd.MM.yyyy];venue;c
 ;20170104;Grand Tour - Gliwice;04.11.2017;"hybris Gliwice, Poland";indoor;201701;
 ;20170105;Grand Tour - Boulder;07.01.2018;"hybris Boulder, USA";indoor;201701;
 ;20170106;Grand Tour - Boston;;"hybris Boston, USA";;201701;
-;20170107;Grand Tour - Boulder;07.01.2019;"hybris Boulder, USA";indoor;201702;
-;20170108;Grand Tour - Boulder;08.01.2019;"hybris Boulder, USA";indoor;201702;
-;20170109;Grand Tour - Boston;;"hybris Boston, USA";;201703;

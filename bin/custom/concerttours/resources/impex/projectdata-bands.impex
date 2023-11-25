@@ -19,9 +19,9 @@ INSERT_UPDATE Concert;venue;date;concertType
 ;concert venue 2;10.12.2023;openair
 ;concert venue 3;1.1.2024;openair
 
-INSERT ConcertTicket;price;totalCount;availableCount;concertTicketType
-;123.123;102;23;
-;123.0;1012;12;
+INSERT ConcertTicket;price;totalCount;availableCount;concertTicketType(code)
+;123.123;102;23;dancefloor
+;123.0;1012;12;vip
 ;1000.0;1000;10;
 
 INSERT_UPDATE ConcertTicketType;code[unique=true]
