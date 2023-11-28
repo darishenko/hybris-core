@@ -29,6 +29,10 @@
     <bean id="defaultAlbumService" class="concerttours.service.impl.DefaultAlbumService">
         <property name="albumDAO" ref="albumDAO"/>
     </bean>
+    <alias name="defaultNewsService" alias="newsService"/>
+    <bean id="defaultNewsService" class="concerttours.service.impl.DefaultNewsService">
+        <property name="newsDAO" ref="newsDAO"/>
+    </bean>
 
     <alias name="defaultBandFacade" alias="bandFacade"/>
     <bean id="defaultBandFacade" class="concerttours.facades.impl.DefaultBandFacade">
@@ -53,5 +57,10 @@
     <bean id="albumSalesEventListener" class="concerttours.events.AlbumSalesEventListener"
           parent="abstractEventListener">
         <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="sendNewsJob" class="concerttours.jobs.SendNewsJob" parent="abstractJobPerformable">
+        <property name="newsService" ref="newsService"/>
+        <property name="configurationService" ref="configurationService"/>
     </bean>
 </beans>

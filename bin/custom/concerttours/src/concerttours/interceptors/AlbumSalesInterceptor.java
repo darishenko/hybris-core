@@ -46,16 +46,6 @@ public class AlbumSalesInterceptor implements ValidateInterceptor, PrepareInterc
     private boolean hasBecomeBig(final AlbumModel albumModel, final InterceptorContext ctx) {
         final Long sales = albumModel.getAlbumSales();
 
-        if (Objects.nonNull(sales) && sales.longValue() >= BIG_SALES) {
-            if (ctx.isNew(albumModel)) {
-                return true;
-            } else {
-                final Long oldValue = getItemModelContext(albumModel).getOriginalValue(AlbumModel.ALBUMSALES);
-
-                return  Objects.isNull(oldValue) || oldValue.intValue() < BIG_SALES;
-            }
-        }
-
-        return false;
+        return Objects.nonNull(sales) && sales.longValue() >= BIG_SALES && ctx.isNew(albumModel);
     }
 }

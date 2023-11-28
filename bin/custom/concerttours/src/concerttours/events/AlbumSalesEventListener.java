@@ -1,5 +1,6 @@
 package concerttours.events;
 
+import java.util.Date;
 import concerttours.model.NewsModel;
 import de.hybris.platform.servicelayer.event.impl.AbstractEventListener;
 import de.hybris.platform.servicelayer.model.ModelService;
@@ -24,7 +25,7 @@ public class AlbumSalesEventListener extends AbstractEventListener<AlbumSalesEve
         final String headline = String.format(BAND_SALES_HEADLINE, event.getName());
         final String content = String.format(BAND_SALES_CONTENT, event.getName(), event.getAlbumSales());
 
-        final NewsModel news = createNewsModel(headline, content)
+        final NewsModel news = createNewsModel(headline, content);
 
         modelService.save(news);
     }
@@ -35,6 +36,7 @@ public class AlbumSalesEventListener extends AbstractEventListener<AlbumSalesEve
         news.setDate(new Date());
         news.setHeadline(headline);
         news.setContent(content);
+
         return news;
     }
 }
