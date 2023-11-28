@@ -6,6 +6,7 @@ hs_err_pid*
 dummy.txt
 ${HYBRIS_DATA_DIR}/hsqldb
 *.iml
+*.yaml
 
 ########################
 # Java generated files #
