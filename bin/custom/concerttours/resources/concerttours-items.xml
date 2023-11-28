@@ -63,7 +63,7 @@
     <itemtypes>
         <itemtype code="Product" autocreate="false">
             <attributes>
-                <attribute qualifier="hashtag" type="java.lang.String">
+                <attribute qualifier="hashtag" type="localized:java.lang.String">
                     <description>hashtag of concert tour for social media</description>
                     <persistence type="property"/>
                 </attribute>
@@ -80,7 +80,7 @@
                     <description>name of band</description>
                     <persistence type="property"/>
                 </attribute>
-                <attribute qualifier="history" type="java.lang.String">
+                <attribute qualifier="history" type="localized:java.lang.String">
                     <description>history of band</description>
                     <persistence type="property"/>
                 </attribute>

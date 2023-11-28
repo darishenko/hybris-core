@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
+import java.util.Locale;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -98,7 +99,7 @@ public class DefaultBandFacadeIntegrationTest extends ServicelayerTransactionalT
 
         bandModel.setCode(BAND_CODE);
         bandModel.setName(BAND_NAME);
-        bandModel.setHistory(BAND_HISTORY);
+        bandModel.setHistory(BAND_HISTORY, Locale.ENGLISH);
 
         return bandModel;
     }
