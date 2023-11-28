@@ -9,6 +9,10 @@ import concerttours.model.AlbumModel;
 import concerttours.model.BandModel;
 import concerttours.service.AlbumService;
 import concerttours.service.BandService;
+import de.hybris.platform.core.model.media.MediaContainerModel;
+import de.hybris.platform.core.model.media.MediaFormatModel;
+import de.hybris.platform.core.model.product.ProductModel;
+import de.hybris.platform.servicelayer.media.MediaService;
 import org.springframework.beans.factory.annotation.Required;
 import reactor.util.annotation.NonNull;
 
@@ -23,6 +27,7 @@ public class DefaultBandFacade implements BandFacade {
 
     private BandService bandService;
     private AlbumService albumService;
+    private MediaService mediaService;
 
     @Required
     public void setBandService(final BandService bandService) {
@@ -34,10 +39,17 @@ public class DefaultBandFacade implements BandFacade {
         this.albumService = albumService;
     }
 
+    @Required
+    public void setMediaService(final MediaService mediaService)
+    {
+        this.mediaService = mediaService;
+    }
+
     @Override
     public List<BandData> getBands() {
         final List<BandModel> bandModels = bandService.getBands();
         List<BandData> bandFacadeData = new ArrayList<>();
+        final MediaFormatModel format = mediaService.getFormat("bandList");
 
         bandFacadeData = bandModels.stream()
                 .map(bandModel -> {
@@ -45,6 +57,7 @@ public class DefaultBandFacade implements BandFacade {
                     sfd.setId(bandModel.getCode());
                     sfd.setName(bandModel.getName());
                     sfd.setDescription(bandModel.getHistory());
+                    sfd.setImageURL(getImageURL(bandModel, format));
                     return sfd;
                 }).collect(Collectors.toList());
 
@@ -68,6 +81,7 @@ public class DefaultBandFacade implements BandFacade {
         final List<String> genres = getBandGenres(band);
         final List<TourSummaryData> tours = getBandTourSummaryData(band);
         final List<AlbumData> albums = getBandAlbumData(band.getPk().getLong());
+        final MediaFormatModel format = mediaService.getFormat("bandList");
 
         bandData.setId(band.getCode());
         bandData.setName(band.getName());
@@ -75,6 +89,7 @@ public class DefaultBandFacade implements BandFacade {
         bandData.setGenres(genres);
         bandData.setTours(tours);
         bandData.setAlbums(albums);
+        bandData.setImageURL(getImageURL(band, format));
 
         return bandData;
     }
@@ -122,6 +137,16 @@ public class DefaultBandFacade implements BandFacade {
                 }).collect(Collectors.toList());
 
         return albumDataList;
+    }
+
+    protected String getImageURL(final BandModel bandModel, final MediaFormatModel format) {
+        final MediaContainerModel container = bandModel.getImage();
+
+        if (Objects.nonNull(container)) {
+            return mediaService.getMediaByFormat(container, format).getDownloadURL();
+        }
+
+        return null;
     }
 
 }

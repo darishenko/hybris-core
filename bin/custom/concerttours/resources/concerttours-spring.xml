@@ -38,6 +38,7 @@
     <bean id="defaultBandFacade" class="concerttours.facades.impl.DefaultBandFacade">
         <property name="bandService" ref="bandService"/>
         <property name="albumService" ref="albumService"/>
+        <property name="mediaService" ref="mediaService"/>
     </bean>
     <alias name="defaultTourFacade" alias="tourFacade"/>
     <bean id="defaultTourFacade" class="concerttours.facades.impl.DefaultTourFacade">
