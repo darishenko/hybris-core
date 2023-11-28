@@ -4,6 +4,7 @@
 
     <extension name="concerttours" />
     <extension name="myextension" />
+    <extension name="platformbackoffice"/> 
     
   </extensions>
 </hybrisconfig>
