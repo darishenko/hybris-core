@@ -27,7 +27,7 @@ public class ConcertDaysUntilAttributeHandlerIntegrationTest extends Servicelaye
 
         long dateDiff = concert.getDaysUntil().longValue();
 
-        Assert.assertEquals("Wrong value for concert in the future: " + concert.getDate().longValue(), 2L, dateDiff);
+        Assert.assertEquals("Wrong value for concert in the future: " + dateDiff, 2L, dateDiff);
     }
 
     @Test
