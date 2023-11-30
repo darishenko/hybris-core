@@ -11,13 +11,18 @@ import concerttours.service.AlbumService;
 import concerttours.service.BandService;
 import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaFormatModel;
-import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.media.MediaService;
 import org.springframework.beans.factory.annotation.Required;
-import reactor.util.annotation.NonNull;
 
-import java.util.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DefaultBandFacade implements BandFacade {
@@ -71,7 +76,7 @@ public class DefaultBandFacade implements BandFacade {
     }
 
     @Override
-    public Optional<BandData> getBand(@NonNull final String name) {
+    public Optional<BandData> getBand(@Nonnull final String name) {
         final BandModel band = bandService.getBandForCode(name);
 
         if (Objects.isNull(band)) {
@@ -120,9 +125,11 @@ public class DefaultBandFacade implements BandFacade {
             tourSummaryData = band.getTours().stream()
                     .map(tour -> {
                         final TourSummaryData tourData = new TourSummaryData();
+
                         tourData.setId(tour.getCode());
                         tourData.setTourName(tour.getName());
                         tourData.setNumberOfConcerts(Integer.toString(tour.getVariants().size()));
+
                         return tourData;
                     }).collect(Collectors.toList());
         }
@@ -137,15 +144,18 @@ public class DefaultBandFacade implements BandFacade {
         albumDataList = albums.stream()
                 .map(albumModel -> {
                     final AlbumData album = new AlbumData();
+
                     album.setName(albumModel.getName());
                     album.setAlbumSales(Long.toString(albumModel.getAlbumSales()));
                     album.setSongs(albumModel.getSongs());
+
                     return album;
                 }).collect(Collectors.toList());
 
         return albumDataList;
     }
 
+    @Nullable
     protected String getImageURL(final BandModel bandModel, final MediaFormatModel format) {
         final MediaContainerModel container = bandModel.getImage();
 

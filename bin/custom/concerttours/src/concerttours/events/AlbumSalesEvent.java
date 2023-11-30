@@ -2,7 +2,6 @@ package concerttours.events;
 
 import de.hybris.platform.servicelayer.event.events.AbstractEvent;
 
-import java.awt.font.TextHitInfo;
 import java.util.List;
 
 public class AlbumSalesEvent extends AbstractEvent {

@@ -8,8 +8,8 @@ import concerttours.model.ConcertModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.ProductService;
 import org.springframework.beans.factory.annotation.Required;
-import reactor.util.annotation.NonNull;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +28,7 @@ public class DefaultTourFacade implements TourFacade {
     }
 
     @Override
-    public Optional<TourData> getTourDetails(@NonNull final String tourId) {
+    public Optional<TourData> getTourDetails(@Nonnull final String tourId) {
         final ProductModel product = productService.getProductForCode(tourId);
 
         if (Objects.isNull(product)) {
@@ -64,6 +64,7 @@ public class DefaultTourFacade implements TourFacade {
                     summary.setDate(concert.getDate());
                     summary.setVenue(concert.getVenue());
                     summary.setType(getConcertType(concert.getConcertType()));
+                    summary.setCountDown(concert.getDaysUntil());
 
                     concerts.add(summary);
                 }
@@ -77,6 +78,7 @@ public class DefaultTourFacade implements TourFacade {
         if (ConcertType.OPENAIR.equals(concertType)) {
             return CONCERT_TYPE_OUTDOORS;
         }
+
         return CONCERT_TYPE_INDOORS;
     }
 

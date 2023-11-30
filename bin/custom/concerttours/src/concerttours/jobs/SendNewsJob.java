@@ -29,7 +29,7 @@ public class SendNewsJob extends AbstractJobPerformable<CronJobModel> {
             "Problem sending new email. Note that org.apache.commons.mail.send() can block if behind a firewall/proxy)";
     private static final String EMAIL_SUBJECT = "Daily News Summary";
     private static final String PROPERTY_EMAIL_FOR_SENDING = "news_summary_mailing_address";
-    private static final String EMAIL_CONTENT_NEWS_ITEM = "%--- %s\n %s\n\n";
+    private static final String EMAIL_CONTENT_NEWS_ITEM = "%s\n %s\n\n";
     private static final String EMAIL_CONTENT_START = "Todays news summary:\n\n";
 
     private NewsService newsService;

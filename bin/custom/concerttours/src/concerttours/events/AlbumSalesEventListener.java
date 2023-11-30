@@ -1,10 +1,11 @@
 package concerttours.events;
 
-import java.util.Date;
 import concerttours.model.NewsModel;
 import de.hybris.platform.servicelayer.event.impl.AbstractEventListener;
 import de.hybris.platform.servicelayer.model.ModelService;
-import reactor.util.annotation.NonNull;
+
+import javax.annotation.Nonnull;
+import java.util.Date;
 
 public class AlbumSalesEventListener extends AbstractEventListener<AlbumSalesEvent> {
     private static final String BAND_SALES_HEADLINE = "%s album sales exceed 50000";
@@ -21,7 +22,7 @@ public class AlbumSalesEventListener extends AbstractEventListener<AlbumSalesEve
     }
 
     @Override
-    protected void onEvent(@NonNull final AlbumSalesEvent event) {
+    protected void onEvent(@Nonnull final AlbumSalesEvent event) {
         final String headline = String.format(BAND_SALES_HEADLINE, event.getName());
         final String content = String.format(BAND_SALES_CONTENT, event.getName(), event.getAlbumSales());
 

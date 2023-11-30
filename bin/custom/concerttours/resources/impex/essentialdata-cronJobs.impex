@@ -5,7 +5,7 @@ INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLangu
 # Define the trigger that periodically invokes the cron job
 INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
 #% afterEach: impex.getLastImportedItem().setActivationTime(new Date());
-; sendNewsCronJob; 0/10 * * * * ?
+; sendNewsCronJob; 0/30 * * * * ?
 
 # Define the ScriptingJob
 INSERT_UPDATE ScriptingJob; code[unique= true ];scriptURI
@@ -18,4 +18,4 @@ INSERT_UPDATE CronJob; code[unique= true ];job(code);sessionLanguage(isocode)
 # Define the trigger
 INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
 #% afterEach: impex.getLastImportedItem().setActivationTime(new Date());
-; clearoldconcertsCronJob; 0/10 * * * * ?
+; clearoldconcertsCronJob; 0/30 * * * * ?

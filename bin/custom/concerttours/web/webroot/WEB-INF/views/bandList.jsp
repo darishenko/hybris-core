@@ -7,9 +7,8 @@
 <ul>
     <c:forEach var="band" items="${bands}">
         <li>
-            <a href="./bands/${band.id}">
-                <img src="${band.imageURL}"/>${band.name}
-            </a>
+            <a href="./bands/${band.id}">${band.name}</a>
+            <img src="${band.imageURL}"/>
         </li>
     </c:forEach>
 </ul>

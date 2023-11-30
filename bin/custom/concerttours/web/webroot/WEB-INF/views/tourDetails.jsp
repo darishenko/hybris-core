@@ -21,6 +21,7 @@ Tour Details for ${tour.tourName}
             <td>
                 <fmt:formatDate pattern="dd MMM yyyy" value="${concert.date}"/>
             </td>
+            <td>${concert.countDown}</td>
         </tr>
     </c:forEach>
 </table>
