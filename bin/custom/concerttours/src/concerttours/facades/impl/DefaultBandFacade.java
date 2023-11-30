@@ -26,8 +26,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DefaultBandFacade implements BandFacade {
-    public static final String BAND_LIST_FORMAT = "band.list.format.name";
     private static final String NULL_BAND_NAME = "Band name cannot be null";
+    public static final String BAND_LIST_FORMAT = "band.list.format.name";
     private static final String BAND_DETAIL_FORMAT = "band.detail.format.name";
 
     private BandService bandService;
@@ -65,10 +65,12 @@ public class DefaultBandFacade implements BandFacade {
         bandFacadeData = bandModels.stream()
                 .map(bandModel -> {
                     final BandData sfd = new BandData();
+
                     sfd.setId(bandModel.getCode());
                     sfd.setName(bandModel.getName());
                     sfd.setDescription(bandModel.getHistory(Locale.ENGLISH));
                     sfd.setImageURL(getImageURL(bandModel, format));
+
                     return sfd;
                 }).collect(Collectors.toList());
 
