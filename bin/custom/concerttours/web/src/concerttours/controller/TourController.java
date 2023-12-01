@@ -43,9 +43,7 @@ public class TourController {
         final String decodedTourId = URLDecoder.decode(tourId, CharacterEncoding.UTF_8);
         final Optional<TourData> tour = tourFacade.getTourDetails(decodedTourId);
 
-        if (tour.isPresent()) {
-            model.addAttribute(ModelsAttribute.TOUR, tour.get());
-        }
+        tour.ifPresent(tourData -> model.addAttribute(ModelsAttribute.TOUR, tourData));
 
         return JspPages.TOUR_DETEILS;
     }
