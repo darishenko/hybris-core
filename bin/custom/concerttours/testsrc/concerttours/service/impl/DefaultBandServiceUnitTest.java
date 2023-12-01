@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -76,7 +77,7 @@ public class DefaultBandServiceUnitTest {
 
         bandModel.setCode(BAND_CODE);
         bandModel.setName(BAND_NAME);
-        bandModel.setHistory(BAND_HISTORY);
+        bandModel.setHistory(BAND_HISTORY, Locale.ENGLISH);
 
         return bandModel;
     }

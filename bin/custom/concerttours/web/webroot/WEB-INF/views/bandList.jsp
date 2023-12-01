@@ -1,13 +1,19 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!doctype html>
 <html>
-<title>Band List</title>
+<title>
+    <spring:message code="text.band.details"/>
+</title>
 <body>
-<h1>Band List</h1>
+<h1>
+    <spring:message code="text.band.details"/>
+</h1>
 <ul>
     <c:forEach var="band" items="${bands}">
         <li>
-            <a href="<c:url value="/bands/${band.id}" />">${band.name}</a>
+            <a href="./bands/${band.id}">${band.name}</a>
+            <img src="${band.imageURL}"/>
         </li>
     </c:forEach>
 </ul>

@@ -51,9 +51,7 @@ public class BandController {
         final String decodedBandId = URLDecoder.decode(bandId, CharacterEncoding.UTF_8);
         final Optional<BandData> band = bandFacade.getBand(decodedBandId);
 
-        if (band.isPresent()) {
-            model.addAttribute(ModelsAttribute.BAND, band.get());
-        }
+        band.ifPresent(bandData -> model.addAttribute(ModelsAttribute.BAND, bandData));
 
         return JspPages.BAND_DETAILS;
     }
