@@ -12,6 +12,14 @@
 </h1>
 <spring:message code="text.tour.details.for"/> ${tour.tourName}
 <p>${tour.description}</p>
+<c:if test="${not empty tour.producer.id}">
+    <p>
+        <spring:message code="text.producer"/>
+        <a href="../producers/${tour.producer.id}">
+                ${tour.producer.firstName} ${tour.producer.lastName}
+        </a>
+    </p>
+</c:if>
 <p>
     <spring:message code="text.schedule.list"/>
 </p>
