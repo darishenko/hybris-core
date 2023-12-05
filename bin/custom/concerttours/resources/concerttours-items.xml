@@ -58,6 +58,14 @@
                 <modifiers read="true" write="true" search="true" optional="true"/>
             </targetElement>
         </relation>
+        <relation code="Producer2Product" localized="false">
+            <sourceElement qualifier="producer" type="Producer" cardinality="one" ordered="false">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </sourceElement>
+            <targetElement qualifier="tours" type="Product" cardinality="many" collectiontype="set" ordered="false">
+                <modifiers read="true" write="true" search="true" optional="true"/>
+            </targetElement>
+        </relation>
     </relations>
 
     <itemtypes>
@@ -65,6 +73,24 @@
             <attributes>
                 <attribute qualifier="hashtag" type="localized:java.lang.String">
                     <description>hashtag of concert tour for social media</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="Producer">
+            <deployment table="Producers" typecode="30272"/>
+            <attributes>
+                <attribute qualifier="code" type="java.lang.String">
+                    <description>short unique code of producer</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="lastName" type="java.lang.String">
+                    <description>lastName of producer</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="firstName" type="localized:java.lang.String">
+                    <description>firstName of producer</description>
                     <persistence type="property"/>
                 </attribute>
             </attributes>
@@ -149,7 +175,7 @@
                 </attribute>
             </attributes>
         </itemtype>
-        <itemtype generate="true" code="News" autocreate="true">
+        <itemtype code="News">
             <deployment table="News" typecode="30271"/>
             <attributes>
                 <attribute qualifier="date" type="java.util.Date">

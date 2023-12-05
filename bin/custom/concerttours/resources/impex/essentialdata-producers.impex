@@ -1,0 +1,4 @@
+INSERT_UPDATE Producer; code[unique = true]; lastName; firstName
+                      ; 005112023          ; Dasha   ; Malashenka
+                      ; 105112023          ; Tom     ; Jerry
+                      ; 205112023          ; Andre   ; Rieu

@@ -1,15 +1,18 @@
 package concerttours.facades.impl;
 
 import concerttours.data.ConcertSummaryData;
+import concerttours.data.ProducerShortInfoData;
 import concerttours.data.TourData;
 import concerttours.enums.ConcertType;
 import concerttours.facades.TourFacade;
 import concerttours.model.ConcertModel;
+import concerttours.model.ProducerModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.ProductService;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,11 +45,13 @@ public class DefaultTourFacade implements TourFacade {
     private TourData getTourData(ProductModel product) {
         final TourData tourData = new TourData();
         final List<ConcertSummaryData> concerts = getConcertSummaryData(product);
+        final ProducerShortInfoData producer = getProducerShortInfoData(product);
 
         tourData.setId(product.getCode());
         tourData.setTourName(product.getName());
         tourData.setDescription(product.getDescription());
         tourData.setConcerts(concerts);
+        tourData.setProducer(producer);
 
         return tourData;
     }
@@ -80,6 +85,20 @@ public class DefaultTourFacade implements TourFacade {
         }
 
         return CONCERT_TYPE_INDOORS;
+    }
+
+    @Nullable
+    private ProducerShortInfoData getProducerShortInfoData(ProductModel product) {
+        final ProducerModel producerModel = product.getProducer();
+        final ProducerShortInfoData producer = new ProducerShortInfoData();
+
+        if (Objects.nonNull(producerModel)) {
+            producer.setId(producerModel.getCode());
+            producer.setFirstName(producerModel.getFirstName());
+            producer.setLastName(producerModel.getLastName());
+        }
+
+        return producer;
     }
 
 }
