@@ -26,13 +26,7 @@ public class DefaultProducerFacade implements ProducerFacade {
     public Optional<ProducerData> getProducer(@Nonnull final String name) {
         final ProducerModel producerModel = producerService.getProducerForCode(name);
 
-        if (Objects.isNull(producerModel)) {
-            return Optional.empty();
-        }
-
-        ProducerData producerData = getProducerData(producerModel);
-
-        return Optional.of(producerData);
+        return Optional.ofNullable(producerModel).map(this::getProducerData);
     }
 
     @Override
