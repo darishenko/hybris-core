@@ -177,7 +177,23 @@
         </itemtype>
         <itemtype code="News">
             <deployment table="News" typecode="30271"/>
+            <custom-properties>
+                <property name="catalogItemType">
+                    <value>java.lang.Boolean.TRUE</value>
+                </property>
+                <property name="catalogVersionAttributeQualifier">
+                    <value>"catalogVersion"</value>
+                </property>
+                <property name="uniqueKeyAttributeQualifier">
+                    <value>"code"</value>
+                </property>
+            </custom-properties>
             <attributes>
+                <attribute qualifier="code" type="java.lang.String">
+                    <description>Unique code of news</description>
+                    <persistence type="property"/>
+                    <modifiers read="true" write="true" search="true" optional="false" unique="true"/>
+                </attribute>
                 <attribute qualifier="date" type="java.util.Date">
                     <description>date of news item</description>
                     <persistence type="property"/>
@@ -190,10 +206,14 @@
                     <description>fuller description of the news item</description>
                     <persistence type="property"/>
                 </attribute>
+                <attribute qualifier="catalogVersion" type="CatalogVersion">
+                    <description>Catalog version</description>
+                    <modifiers read="true" write="false" search="true" initial="true" optional="false"/>
+                    <persistence type="property"/>
+                </attribute>
             </attributes>
         </itemtype>
-        <itemtype code="NotLoremIpsumConstraint" extends="AttributeConstraint"
-                  autocreate="true" generate="true">
+        <itemtype code="NotLoremIpsumConstraint" extends="AttributeConstraint">
             <description>Custom constraint which checks for Lorem Ipsum text.</description>
             <attributes>
                 <attribute qualifier="annotation" type="java.lang.Class"
